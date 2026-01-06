@@ -182,30 +182,31 @@ const FuelTable: React.FC<FuelTableProps> = ({ entries, onDelete, onEdit }) => {
                 <span className="font-bold text-slate-900">R$ {entry.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
               </td>
               <td className="px-6 py-5 text-right whitespace-nowrap">
-                <div className="flex items-center justify-end gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center justify-end gap-3 transition-all">
                   <button 
                     onClick={() => handleShare(entry)}
-                    className="flex items-center gap-2 px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-lg shadow-emerald-100"
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black transition-all active:scale-95 shadow-lg shadow-emerald-200"
                     title="Compartilhar PDF"
                   >
-                    <Share2 size={14} strokeWidth={3} />
-                    <span>Enviar</span>
+                    <Share2 size={16} strokeWidth={3} />
+                    <span className="hidden sm:inline">Enviar</span>
                   </button>
                   
-                  <div className="flex items-center border-l border-slate-100 ml-1 pl-1">
+                  <div className="flex items-center bg-slate-50/80 rounded-xl p-1 border border-slate-100">
                     <button 
-                      onClick={() => onEdit(entry)}
-                      className="p-2 text-slate-300 hover:text-blue-500 transition-colors"
+                      onClick={(e) => { e.stopPropagation(); onEdit(entry); }}
+                      className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all active:scale-90"
                       title="Editar"
                     >
-                      <Edit2 size={16} />
+                      <Edit2 size={18} />
                     </button>
+                    <div className="w-px h-4 bg-slate-200 mx-1"></div>
                     <button 
-                      onClick={() => onDelete(entry.id)}
-                      className="p-2 text-slate-300 hover:text-red-500 transition-colors"
+                      onClick={(e) => { e.stopPropagation(); onDelete(entry.id); }}
+                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all active:scale-90"
                       title="Excluir"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 </div>

@@ -49,9 +49,8 @@ const App: React.FC = () => {
   };
 
   const handleDeleteEntry = (id: string) => {
-    if (confirm('Deseja realmente excluir este registro?')) {
-      setEntries(prev => prev.filter(e => e.id !== id));
-    }
+    // Ação imediata conforme solicitado: remove o registro diretamente
+    setEntries(prev => prev.filter(e => e.id !== id));
   };
 
   const handleEditClick = (entry: FuelEntry) => {

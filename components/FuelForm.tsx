@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FuelEntry, FuelEntryFormData } from '../types';
-import { Calendar, Car, Fuel, Hash, DollarSign, Gauge, ArrowRight, Check } from 'lucide-react';
+import { Calendar, Car, Fuel, Hash, DollarSign, Gauge, ArrowRight, Check, Plus } from 'lucide-react';
 
 interface FuelFormProps {
   initialData?: FuelEntry;
@@ -71,7 +71,7 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
 
   return (
     <form className="p-0 flex flex-col" onSubmit={(e) => handleSubmit(e, true)}>
-      <div className="p-8 space-y-5">
+      <div className="p-8 space-y-5 overflow-y-auto max-h-[60vh] scrollbar-hide">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <InputWrapper label="Data" icon={Calendar}>
             <input 
@@ -180,11 +180,11 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
               type="button" 
               onClick={(e) => handleSubmit(e, false)}
               className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-bold rounded-2xl transition-all active:scale-[0.98]"
-              title="Salvar e continuar"
+              title="Salvar e continuar adicionando"
             >
-              <Check size={20} strokeWidth={3} />
-              <span className="hidden sm:inline">Salvar e Próximo</span>
-              <span className="sm:hidden">Próximo</span>
+              <Plus size={20} strokeWidth={3} />
+              <span className="hidden sm:inline">Salvar e Novo</span>
+              <span className="sm:hidden">Novo</span>
             </button>
           )}
 
@@ -192,7 +192,7 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
             type="submit"
             className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-xl shadow-slate-200 transition-all active:scale-[0.98]"
           >
-            <span>{initialData ? 'Atualizar' : 'Finalizar'}</span>
+            <span>{initialData ? 'Atualizar Registro' : 'Adicionar registro'}</span>
             <ArrowRight size={20} strokeWidth={3} />
           </button>
         </div>
