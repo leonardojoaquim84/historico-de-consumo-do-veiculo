@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { FuelEntry, FuelEntryFormData } from '../types';
 import { Calendar, Car, Fuel, Hash, DollarSign, Gauge, ArrowRight, Check, Plus } from 'lucide-react';
@@ -8,9 +9,8 @@ interface FuelFormProps {
   onCancel: () => void;
 }
 
-// Fixed: Made children optional to avoid TypeScript 'Property children is missing' error when using nested JSX elements.
-const InputWrapper = ({ label, icon: Icon, children }: { label: string, icon: any, children?: React.ReactNode }) => (
-  <div className="space-y-1 w-full flex flex-col">
+const InputWrapper = ({ label, icon: Icon, children, className = "" }: { label: string, icon: any, children?: React.ReactNode, className?: string }) => (
+  <div className={`space-y-1 w-full flex flex-col ${className}`}>
     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">
       {label}
     </label>
@@ -46,11 +46,16 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
     } : getEmptyState()
   );
 
-  const handleSubmit = (e: React.FormEvent, shouldClose: boolean = true) => {
+  // Estado para controlar se o modal deve fechar após o envio
+  const [shouldCloseOnSubmit, setShouldCloseOnSubmit] = useState(true);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData, shouldClose);
     
-    if (!shouldClose) {
+    onSubmit(formData, shouldCloseOnSubmit);
+    
+    if (!shouldCloseOnSubmit) {
+      // Se for "Salvar e Novo", limpa os campos mas mantém o carro e data para agilizar
       setFormData(prev => ({
         ...getEmptyState(),
         carro: prev.carro,
@@ -67,13 +72,13 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
     }));
   };
 
-  const inputClasses = "w-full pl-12 pr-4 min-h-[50px] bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 outline-none transition-all text-slate-700 font-medium placeholder:text-slate-300 flex items-center";
+  const inputClasses = "w-full pl-12 pr-4 min-h-[46px] bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 outline-none transition-all text-slate-700 font-medium placeholder:text-slate-300 flex items-center";
 
   return (
-    <form className="p-0 flex flex-col" onSubmit={(e) => handleSubmit(e, true)}>
-      <div className="p-8 space-y-5 overflow-y-auto max-h-[60vh] scrollbar-hide">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <InputWrapper label="Data" icon={Calendar}>
+    <form className="p-0 flex flex-col" onSubmit={handleSubmit}>
+      <div className="p-6 space-y-4 overflow-y-auto max-h-[70vh] scrollbar-hide">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <InputWrapper label="Data de Abastecimento" icon={Calendar} className="sm:col-span-3">
             <input 
               type="date" 
               name="data" 
@@ -92,7 +97,7 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
               className={inputClasses}
               required
             >
-              <option value="" disabled>Selecione um veículo</option>
+              <option value="" disabled>Selecione</option>
               <option value="Fastback">Fastback</option>
               <option value="Palio">Palio</option>
               <option value="Bros">Bros</option>
@@ -124,6 +129,7 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
               onChange={handleChange}
               className={inputClasses}
               required
+              min="0.01"
             />
           </InputWrapper>
 
@@ -137,6 +143,7 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
               onChange={handleChange}
               className={inputClasses}
               required
+              min="0.01"
             />
           </InputWrapper>
 
@@ -144,35 +151,37 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
             <input 
               type="number" 
               name="odometroParcial" 
-              placeholder="0" 
+              step="0.1"
+              placeholder="0.0" 
               value={formData.odometroParcial || ''} 
               onChange={handleChange}
               className={inputClasses}
               required
+              min="0.1"
             />
           </InputWrapper>
 
-          <div className="sm:col-span-2">
-            <InputWrapper label="KM Total" icon={Gauge}>
-              <input 
-                type="number" 
-                name="odometroTotal" 
-                placeholder="0" 
-                value={formData.odometroTotal || ''} 
-                onChange={handleChange}
-                className={inputClasses}
-                required
-              />
-            </InputWrapper>
-          </div>
+          <InputWrapper label="KM Total" icon={Gauge}>
+            <input 
+              type="number" 
+              name="odometroTotal" 
+              step="0.1"
+              placeholder="0.0" 
+              value={formData.odometroTotal || ''} 
+              onChange={handleChange}
+              className={inputClasses}
+              required
+              min="0"
+            />
+          </InputWrapper>
         </div>
       </div>
 
-      <div className="p-8 pt-4 flex flex-col sm:flex-row items-center gap-4 border-t border-slate-50 bg-slate-50/30">
+      <div className="p-6 pt-4 flex flex-col sm:flex-row items-center gap-4 border-t border-slate-50 bg-slate-50/30">
         <button 
           type="button" 
           onClick={onCancel}
-          className="w-full sm:w-auto px-6 py-3 text-slate-400 font-semibold hover:text-slate-600 transition-colors order-3 sm:order-1"
+          className="w-full sm:w-auto px-6 py-2.5 bg-red-50 text-red-500 font-bold hover:bg-red-100 rounded-2xl transition-all active:scale-[0.98] order-3 sm:order-1"
         >
           Cancelar
         </button>
@@ -180,12 +189,12 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
         <div className="flex-1 flex gap-3 w-full order-2">
           {!initialData && (
             <button 
-              type="button" 
-              onClick={(e) => handleSubmit(e, false)}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-bold rounded-2xl transition-all active:scale-[0.98]"
+              type="submit" 
+              onClick={() => setShouldCloseOnSubmit(false)}
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-bold rounded-2xl transition-all active:scale-[0.98]"
               title="Salvar e continuar adicionando"
             >
-              <Plus size={20} strokeWidth={3} />
+              <Plus size={18} strokeWidth={3} />
               <span className="hidden sm:inline">Salvar e Novo</span>
               <span className="sm:hidden">Novo</span>
             </button>
@@ -193,10 +202,11 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
 
           <button 
             type="submit"
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-xl shadow-slate-200 transition-all active:scale-[0.98]"
+            onClick={() => setShouldCloseOnSubmit(true)}
+            className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-xl shadow-slate-200 transition-all active:scale-[0.98]"
           >
-            <span>{initialData ? 'Atualizar Registro' : 'Adicionar registro'}</span>
-            <ArrowRight size={20} strokeWidth={3} />
+            <span>{initialData ? 'Salvar Registro' : 'Adicionar registro'}</span>
+            <ArrowRight size={18} strokeWidth={3} />
           </button>
         </div>
       </div>
