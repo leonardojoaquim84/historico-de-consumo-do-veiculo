@@ -122,8 +122,9 @@ const FuelTable: React.FC<FuelTableProps> = ({ entries, onDelete, onEdit }) => {
     );
   }
 
-  const thClasses = "px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] bg-white whitespace-nowrap";
-  const tdClasses = "px-6 py-5 whitespace-nowrap text-sm text-slate-600";
+  // Padding reduzido para visual mais compacto
+  const thClasses = "px-4 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] bg-white whitespace-nowrap";
+  const tdClasses = "px-4 py-3 whitespace-nowrap text-sm text-slate-600";
 
   return (
     <table className="w-full border-collapse">
@@ -135,7 +136,7 @@ const FuelTable: React.FC<FuelTableProps> = ({ entries, onDelete, onEdit }) => {
           <th className={thClasses}>Litros</th>
           <th className={thClasses}>Consumo</th>
           <th className={thClasses}>Valor</th>
-          <th className="px-6 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] bg-white">Ação</th>
+          <th className="px-4 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] bg-white">Ação</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-slate-50">
@@ -148,19 +149,19 @@ const FuelTable: React.FC<FuelTableProps> = ({ entries, onDelete, onEdit }) => {
                   <span className="font-bold text-slate-700">
                     {new Date(entry.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
                   </span>
-                  <span className="text-[10px] text-slate-300 font-bold uppercase">
+                  <span className="text-[9px] text-slate-300 font-bold uppercase">
                     {new Date(entry.data).toLocaleDateString('pt-BR', { year: 'numeric' })}
                   </span>
                 </div>
               </td>
               <td className={tdClasses}>
-                <div className="flex items-center gap-2">
-                  <CarIcon size={14} className="text-slate-300" />
+                <div className="flex items-center gap-1.5">
+                  <CarIcon size={12} className="text-slate-300" />
                   <span className="font-bold text-slate-800">{entry.carro}</span>
                 </div>
               </td>
               <td className={tdClasses}>
-                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider
+                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider
                   ${entry.combustivel === 'Gasolina' ? 'bg-amber-50 text-amber-600' : 
                     entry.combustivel === 'Etanol' ? 'bg-emerald-50 text-emerald-600' : 
                     'bg-slate-100 text-slate-600'}`}>
@@ -168,45 +169,45 @@ const FuelTable: React.FC<FuelTableProps> = ({ entries, onDelete, onEdit }) => {
                 </span>
               </td>
               <td className={tdClasses}>
-                <span className="font-mono text-slate-500">{entry.litros.toFixed(2)}L</span>
+                <span className="font-mono text-slate-500 text-xs">{entry.litros.toFixed(2)}L</span>
               </td>
               <td className={tdClasses}>
-                <div className="flex items-center gap-1.5">
-                  <span className={`font-black text-lg ${consumo > 12 ? 'text-emerald-500' : consumo > 8 ? 'text-amber-500' : 'text-slate-800'}`}>
+                <div className="flex items-center gap-1">
+                  <span className={`font-black text-base ${consumo > 12 ? 'text-emerald-500' : consumo > 8 ? 'text-amber-500' : 'text-slate-800'}`}>
                     {consumo.toFixed(2)}
                   </span>
-                  <span className="text-[10px] font-bold text-slate-300 uppercase">km/L</span>
+                  <span className="text-[9px] font-bold text-slate-300 uppercase">km/L</span>
                 </div>
               </td>
               <td className={tdClasses}>
                 <span className="font-bold text-slate-900">R$ {entry.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
               </td>
-              <td className="px-6 py-5 text-right whitespace-nowrap">
-                <div className="flex items-center justify-end gap-3 transition-all">
+              <td className="px-4 py-3 text-right whitespace-nowrap">
+                <div className="flex items-center justify-end gap-2 transition-all">
                   <button 
                     onClick={() => handleShare(entry)}
-                    className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black transition-all active:scale-95 shadow-lg shadow-emerald-200"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-[10px] font-black transition-all active:scale-95 shadow-md shadow-emerald-100"
                     title="Compartilhar PDF"
                   >
-                    <Share2 size={16} strokeWidth={3} />
-                    <span className="hidden sm:inline">Enviar</span>
+                    <Share2 size={13} strokeWidth={3} />
+                    <span className="hidden sm:inline uppercase">Enviar</span>
                   </button>
                   
-                  <div className="flex items-center bg-slate-50/80 rounded-xl p-1 border border-slate-100">
+                  <div className="flex items-center bg-slate-50 rounded-lg p-0.5 border border-slate-100">
                     <button 
                       onClick={(e) => { e.stopPropagation(); onEdit(entry); }}
-                      className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all active:scale-90"
+                      className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all active:scale-90"
                       title="Editar"
                     >
-                      <Edit2 size={18} />
+                      <Edit2 size={14} />
                     </button>
-                    <div className="w-px h-4 bg-slate-200 mx-1"></div>
+                    <div className="w-px h-3 bg-slate-200 mx-0.5"></div>
                     <button 
                       onClick={(e) => { e.stopPropagation(); onDelete(entry.id); }}
-                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all active:scale-90"
+                      className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-all active:scale-90"
                       title="Excluir"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 </div>

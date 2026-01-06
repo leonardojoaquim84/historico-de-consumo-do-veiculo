@@ -85,15 +85,18 @@ const FuelForm: React.FC<FuelFormProps> = ({ initialData, onSubmit, onCancel }) 
           </InputWrapper>
 
           <InputWrapper label="Veículo" icon={Car}>
-            <input 
-              type="text" 
+            <select 
               name="carro" 
-              placeholder="Ex: Honda Civic" 
               value={formData.carro} 
               onChange={handleChange}
               className={inputClasses}
               required
-            />
+            >
+              <option value="" disabled>Selecione um veículo</option>
+              <option value="Fastback">Fastback</option>
+              <option value="Palio">Palio</option>
+              <option value="Bros">Bros</option>
+            </select>
           </InputWrapper>
 
           <InputWrapper label="Combustível" icon={Fuel}>

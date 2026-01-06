@@ -66,24 +66,14 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Header */}
+      {/* Header - Logo Centralizado */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-center">
           <div className="flex items-center gap-2">
             <div className="bg-emerald-500 p-2 rounded-lg text-white shadow-lg shadow-emerald-200">
               <Car size={24} />
             </div>
             <h1 className="text-xl font-black text-slate-800 tracking-tight">Car<span className="text-emerald-500 underline decoration-emerald-200 decoration-4 underline-offset-4">Data</span></h1>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => { setEditingEntry(null); setIsFormOpen(true); }}
-              className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-2xl font-bold shadow-xl shadow-slate-200 transition-all active:scale-95"
-            >
-              <Plus size={20} strokeWidth={3} />
-              <span className="hidden sm:inline">Novo Registro</span>
-            </button>
           </div>
         </div>
       </header>
@@ -91,9 +81,9 @@ const App: React.FC = () => {
       {/* Main Content */}
       <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8">
         
-        {/* Stats area - Simplified to only show last consumption */}
-        <div className="mb-8">
-          <div className="inline-block bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow min-w-[280px]">
+        {/* Stats and Action area */}
+        <div className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow min-w-[280px]">
             <div className="flex items-center gap-4">
               <div className="bg-emerald-50 p-4 rounded-2xl text-emerald-500">
                 <TrendingUp size={24} />
@@ -109,13 +99,23 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
+
+          <button 
+            onClick={() => { setEditingEntry(null); setIsFormOpen(true); }}
+            className="flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-7 rounded-[2rem] font-black shadow-2xl shadow-slate-300 transition-all active:scale-95 group h-full self-stretch sm:self-auto"
+          >
+            <div className="bg-emerald-500 p-2 rounded-xl group-hover:rotate-90 transition-transform">
+              <Plus size={24} strokeWidth={3} />
+            </div>
+            <span className="text-lg uppercase tracking-tight">Novo Registro</span>
+          </button>
         </div>
 
         {/* List Section */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-slate-200/40 border border-slate-100 overflow-hidden">
           <div className="px-6 py-5 border-b border-slate-50 flex items-center justify-between bg-white">
-            <h2 className="text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
-              Histórico <span className="text-slate-300 font-light">|</span> <span className="text-emerald-500">Atividades</span>
+            <h2 className="text-lg font-black text-emerald-500 tracking-widest uppercase">
+              HISTÓRICO
             </h2>
           </div>
           
