@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Plus, Table, Trash2, Edit2, Car, Fuel, Calendar, Hash, DollarSign, Gauge, LogOut, ChevronRight, X, TrendingUp } from 'lucide-react';
-import { FuelEntry, FuelEntryFormData } from './types';
-import FuelForm from './components/FuelForm';
-import FuelTable from './components/FuelTable';
+import { FuelEntry, FuelEntryFormData } from './types.ts';
+import FuelForm from './components/FuelForm.tsx';
+import FuelTable from './components/FuelTable.tsx';
 
 const STORAGE_KEY = 'ecodrive_refuels';
 
@@ -49,7 +49,6 @@ const App: React.FC = () => {
   };
 
   const handleDeleteEntry = (id: string) => {
-    // Ação imediata conforme solicitado: remove o registro diretamente
     setEntries(prev => prev.filter(e => e.id !== id));
   };
 
@@ -58,7 +57,6 @@ const App: React.FC = () => {
     setIsFormOpen(true);
   };
 
-  // Cálculo do consumo do último abastecimento
   const lastEntry = entries[0];
   const lastConsumption = lastEntry && lastEntry.litros > 0 
     ? (lastEntry.odometroParcial / lastEntry.litros) 
@@ -66,7 +64,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Header - Logo Centralizado */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-center">
           <div className="flex items-center gap-2">
@@ -78,10 +75,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8">
-        
-        {/* Stats and Action area */}
         <div className="mb-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow min-w-[280px]">
             <div className="flex items-center gap-4">
@@ -111,7 +105,6 @@ const App: React.FC = () => {
           </button>
         </div>
 
-        {/* List Section */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-slate-200/40 border border-slate-100 overflow-hidden">
           <div className="px-6 py-5 border-b border-slate-50 flex items-center justify-between bg-white">
             <h2 className="text-lg font-black text-emerald-500 tracking-widest uppercase">
@@ -129,12 +122,10 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="py-8 text-center text-slate-400 text-xs font-medium uppercase tracking-widest">
         <p>© 2024 CarData Tracker • Gestão Simplificada</p>
       </footer>
 
-      {/* Form Modal */}
       {isFormOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/40 backdrop-blur-md">
           <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col">
